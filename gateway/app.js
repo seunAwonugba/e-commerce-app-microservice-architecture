@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const proxy = require("express-http-proxy");
+require("dotenv").config();
 
 const port = process.env.PORT || 8000;
 const host = "localhost";

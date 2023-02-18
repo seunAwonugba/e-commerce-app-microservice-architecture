@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+require("dotenv").config();
+
 
 const port = process.env.PORT || 8002;
 const host = "localhost";
