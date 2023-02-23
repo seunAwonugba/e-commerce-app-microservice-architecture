@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 require("dotenv").config();
+const { sequelize } = require("./models/index");
 
 const port = process.env.PORT || 8001;
 const host = "localhost";
@@ -20,6 +21,17 @@ app.all("*", (req, res) => {
     });
 });
 
-app.listen(port, host, () => {
-    console.log(`server is listening on http://${host}:${port}`);
-});
+const startServer = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log("Connection has been established successfully.");
+
+        app.listen(port, host, () => {
+            console.log(`server is listening on http://${host}:${port}`);
+        });
+    } catch (error) {
+        console.error("Unable to connect to the database:", error);
+    }
+};
+
+startServer();
