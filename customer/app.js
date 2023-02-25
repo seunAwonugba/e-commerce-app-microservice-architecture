@@ -3,16 +3,21 @@ const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 require("dotenv").config();
 const { sequelize } = require("./models/index");
+const { router } = require("./router/router");
 
 const port = process.env.PORT || 8001;
 const host = "localhost";
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
-    return res.status(StatusCodes.OK).json({
+    res.status(StatusCodes.OK).json({
         success: true,
-        data: "customer service home page",
+        data: "Customer base page",
     });
 });
+
+app.use("/", router);
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({

@@ -1,4 +1,3 @@
-const { json } = require("express");
 const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
@@ -8,9 +7,11 @@ require("dotenv").config();
 const port = process.env.PORT || 8000;
 const host = "localhost";
 
-app.use("/customer", proxy(`http://${host}:8001`));
-app.use("/products", proxy(`http://${host}:8002`));
-app.use("/shopping", proxy(`http://${host}:8003`));
+app.use(express.json());
+
+app.use("/api/v1/customer", proxy(`http://${host}:8001`));
+app.use("/api/v1/products", proxy(`http://${host}:8002`));
+app.use("/api/v1/shopping", proxy(`http://${host}:8003`));
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({
