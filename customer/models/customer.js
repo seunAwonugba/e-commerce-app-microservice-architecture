@@ -43,22 +43,18 @@ module.exports = (sequelize, DataTypes) => {
     Customer.init(
         {
             name: {
-                type: DataTypes.CITEXT,
+                type: DataTypes.STRING,
                 allowNull: false,
                 // validate: [validator.default.isEmpty, "Name is required"],
             },
             email: {
-                type: DataTypes.CITEXT,
+                type: DataTypes.STRING,
                 unique: true,
-                // {
-                //     args: true,
-                //     msg: "Email address already exists",
-                // }
-                // validate: [
-                //     validator.default.isEmail,
-                //     "Provide a valid email address",
-                // ]
-                // ,
+                validate: {
+                    isEmail: {
+                        msg: "Please provide a valid email address",
+                    },
+                },
                 allowNull: false,
             },
             password: {

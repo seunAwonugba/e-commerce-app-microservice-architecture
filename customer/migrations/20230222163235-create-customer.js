@@ -10,12 +10,18 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             name: {
-                type: Sequelize.CITEXT,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             email: {
-                type: Sequelize.CITEXT,
+                type: Sequelize.STRING,
                 allowNull: false,
+                unique: true,
+                validate: {
+                    isEmail: {
+                        msg: "Please provide a valid email address",
+                    },
+                },
             },
             password: {
                 type: Sequelize.STRING,

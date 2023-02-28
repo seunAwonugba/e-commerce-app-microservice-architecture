@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { errorMiddleware } = require("./middleware/errorMiddleware");
 require("dotenv").config();
 const { sequelize } = require("./models/index");
 const { router } = require("./router/router");
@@ -25,6 +26,8 @@ app.all("*", (req, res) => {
         data: ReasonPhrases.NOT_FOUND,
     });
 });
+
+app.use(errorMiddleware);
 
 const startServer = async () => {
     try {
