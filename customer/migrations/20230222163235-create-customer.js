@@ -9,13 +9,19 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            name: {
+                type: Sequelize.CITEXT,
+                allowNull: false,
+            },
             email: {
-                type: Sequelize.STRING,
+                type: Sequelize.CITEXT,
+                allowNull: false,
             },
             password: {
                 type: Sequelize.STRING,
+                allowNull: false,
             },
-            salt: {
+            phone: {
                 type: Sequelize.STRING,
             },
             address: {

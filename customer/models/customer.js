@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
     class Customer extends Model {
         /**
@@ -40,9 +42,36 @@ module.exports = (sequelize, DataTypes) => {
     }
     Customer.init(
         {
-            email: DataTypes.STRING,
-            password: DataTypes.STRING,
-            salt: DataTypes.STRING,
+            name: {
+                type: DataTypes.CITEXT,
+                allowNull: false,
+                // validate: [validator.default.isEmpty, "Name is required"],
+            },
+            email: {
+                type: DataTypes.CITEXT,
+                unique: true,
+                // {
+                //     args: true,
+                //     msg: "Email address already exists",
+                // }
+                // validate: [
+                //     validator.default.isEmail,
+                //     "Provide a valid email address",
+                // ]
+                // ,
+                allowNull: false,
+            },
+            password: {
+                type: DataTypes.STRING,
+                // validate: [
+                //     validator.default.isStrongPassword,
+                //     "Password minimum length must be 8, must contain 1 lowercase,  must contain 1 uppercase, must contain 1 number, and must contain 1 symbol ",
+                // ],
+                allowNull: false,
+            },
+            phone: {
+                type: DataTypes.STRING,
+            },
             address: DataTypes.ARRAY(DataTypes.STRING),
             cart: DataTypes.ARRAY(DataTypes.STRING),
             wishlist: DataTypes.ARRAY(DataTypes.STRING),
@@ -53,5 +82,14 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Customer",
         }
     );
+
+    Customer.beforeCreate(async (customer) => {
+        customer.password = await bcrypt.hash(customer.password, 10);
+    });
+
     return Customer;
 };
+
+// Customer.beforeCreate(async (customer) => {
+//     customer.password = await bcrypt.hash(password, 10);
+// });
