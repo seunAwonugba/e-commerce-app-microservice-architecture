@@ -59,10 +59,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             password: {
                 type: DataTypes.STRING,
-                // validate: [
-                //     validator.default.isStrongPassword,
-                //     "Password minimum length must be 8, must contain 1 lowercase,  must contain 1 uppercase, must contain 1 number, and must contain 1 symbol ",
-                // ],
                 allowNull: false,
             },
             phone: {

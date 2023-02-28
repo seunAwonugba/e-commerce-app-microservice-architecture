@@ -5,11 +5,9 @@ const { BadRequest } = require("../errors/index");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 
-// console.log(process.env);
-
 const createCustomer = async (req, res, next) => {
     try {
-        const { name, email, password, phone } = req.body;
+        const { name, email, password } = req.body;
 
         if (!name) {
             return next(new BadRequest("Name is required"));
@@ -26,15 +24,12 @@ const createCustomer = async (req, res, next) => {
         if (!validator.default.isStrongPassword(password)) {
             return next(
                 new BadRequest(
-                    "Your password must be at least 8 characters long 1 uppercase, 1 lowercase character and 1 number"
+                    "Your password must include a minimum of 8 characters, at least one number, and a combination of uppercase and lowercase letters."
                 )
             );
         }
 
-        // const hashedPassword = await bcrypt.hash(password, 10);
-
         const { Customer } = db;
-        // console.log(Customer);
 
         const createCustomer = await Customer.create(req.body);
 
@@ -51,7 +46,18 @@ const createCustomer = async (req, res, next) => {
 
         return res.status(StatusCodes.CREATED).json({
             success: true,
-            data: createCustomer,
+            data: {
+                id: createCustomer.dataValues.id,
+                name: createCustomer.dataValues.name,
+                email: createCustomer.dataValues.email,
+                phone: createCustomer.dataValues.phone,
+                updatedAt: createCustomer.dataValues.updatedAt,
+                createdAt: createCustomer.dataValues.createdAt,
+                address: createCustomer.dataValues.address,
+                cart: createCustomer.dataValues.cart,
+                wishlist: createCustomer.dataValues.wishlist,
+                orders: createCustomer.dataValues.cart,
+            },
             token,
         });
     } catch (error) {
