@@ -4,7 +4,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { errorMiddleware } = require("./middleware/errorMiddleware");
 require("dotenv").config();
 const { sequelize } = require("./models/index");
-const { router } = require("./router/router");
+const { authRouter } = require("./router/auth");
 
 const port = process.env.PORT || 8001;
 const host = "localhost";
@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/", router);
+app.use("/", authRouter);
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({
