@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const db = require("../models");
+const { customer } = require("../models");
 const { BadRequest, Unauthenticated } = require("../errors/index");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
@@ -30,9 +30,7 @@ const createCustomer = async (req, res, next) => {
     }
 
     try {
-        const { Customer } = db;
-
-        const createCustomer = await Customer.create(req.body);
+        const createCustomer = await customer.create(req.body);
 
         const token = jwt.sign(
             {
@@ -54,17 +52,13 @@ const createCustomer = async (req, res, next) => {
                 phone: createCustomer.dataValues.phone,
                 updatedAt: createCustomer.dataValues.updatedAt,
                 createdAt: createCustomer.dataValues.createdAt,
-                address: createCustomer.dataValues.address,
-                cart: createCustomer.dataValues.cart,
-                wishlist: createCustomer.dataValues.wishlist,
-                orders: createCustomer.dataValues.cart,
             },
             token,
         });
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
-            data: error.errors[0].message,
+            data: error,
         });
     }
 };
@@ -93,8 +87,7 @@ const login = async (req, res, next) => {
     }
 
     try {
-        const { Customer } = db;
-        const checkUser = await Customer.findOne({
+        const checkUser = await customer.findOne({
             where: { email },
         });
 
@@ -150,20 +143,6 @@ const login = async (req, res, next) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             data: error.errors[0].message,
-        });
-    }
-};
-
-const createAddress = async (req, res) => {
-    const {} = req.body;
-
-    const { Address } = db;
-
-    try {
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            data: error,
         });
     }
 };

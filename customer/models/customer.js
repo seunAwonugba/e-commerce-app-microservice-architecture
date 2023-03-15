@@ -11,28 +11,28 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Customer.hasOne(models.Address, {
+            Customer.hasOne(models.address, {
                 foreignKey: {
                     name: "customerId",
                 },
                 onDelete: "CASCADE",
             });
 
-            Customer.hasOne(models.Cart, {
+            Customer.hasOne(models.cart, {
                 foreignKey: {
                     name: "customerId",
                 },
                 onDelete: "CASCADE",
             });
 
-            Customer.hasMany(models.Wishlist, {
+            Customer.hasMany(models.wishlist, {
                 foreignKey: {
                     name: "customerId",
                 },
                 onDelete: "CASCADE",
             });
 
-            Customer.hasMany(models.Orders, {
+            Customer.hasMany(models.orders, {
                 foreignKey: {
                     name: "customerId",
                 },
@@ -45,7 +45,11 @@ module.exports = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                // validate: [validator.default.isEmpty, "Name is required"],
+                validate: {
+                    notEmpty: {
+                        msg: "Name is required",
+                    },
+                },
             },
             email: {
                 type: DataTypes.STRING,
@@ -54,24 +58,29 @@ module.exports = (sequelize, DataTypes) => {
                     isEmail: {
                         msg: "Please provide a valid email address",
                     },
+                    notEmpty: {
+                        msg: "Email address is required",
+                    },
                 },
                 allowNull: false,
             },
             password: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Password is required",
+                    },
+                },
             },
             phone: {
                 type: DataTypes.STRING,
             },
-            address: DataTypes.ARRAY(DataTypes.STRING),
-            cart: DataTypes.ARRAY(DataTypes.STRING),
-            wishlist: DataTypes.ARRAY(DataTypes.STRING),
-            orders: DataTypes.ARRAY(DataTypes.STRING),
         },
         {
             sequelize,
-            modelName: "Customer",
+            tableName: "customers",
+            modelName: "customer",
         }
     );
 

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Orders.belongsTo(models.Customer);
+            Orders.belongsTo(models.customer);
         }
     }
     Orders.init(
@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "Orders",
+            tableName: "orders",
+            modelName: "orders",
         }
     );
     return Orders;

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Wishlist.belongsTo(models.Customer);
+            Wishlist.belongsTo(models.customer);
         }
     }
     Wishlist.init(
@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "Wishlist",
+            tableName: "wishlists",
+            modelName: "wishlist",
         }
     );
     return Wishlist;

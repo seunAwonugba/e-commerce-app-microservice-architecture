@@ -9,20 +9,54 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Address.belongsTo(models.Customer);
+            Address.belongsTo(models.customer);
         }
     }
     Address.init(
         {
-            street: DataTypes.STRING,
+            street: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Street cannot be empty",
+                    },
+                },
+            },
             postalCode: DataTypes.STRING,
-            city: DataTypes.STRING,
-            country: DataTypes.STRING,
+            city: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Street cannot be empty",
+                    },
+                },
+            },
+            country: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Country cannot be empty",
+                    },
+                },
+            },
+            houseNumber: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "House number cannot be empty",
+                    },
+                },
+            },
             customerId: DataTypes.INTEGER,
         },
         {
             sequelize,
-            modelName: "Address",
+            tableName: "addresses",
+            modelName: "address",
         }
     );
     return Address;
