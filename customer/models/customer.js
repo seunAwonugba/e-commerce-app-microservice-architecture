@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "CASCADE",
             });
         }
+
+        toJSON() {
+            return { ...this.get(), password: undefined };
+        }
     }
     Customer.init(
         {
