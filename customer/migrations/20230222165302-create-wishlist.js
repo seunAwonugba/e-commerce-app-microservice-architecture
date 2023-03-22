@@ -11,6 +11,7 @@ module.exports = {
             },
             name: {
                 type: Sequelize.STRING,
+                allowNull: false,
             },
             description: {
                 type: Sequelize.STRING,
@@ -19,13 +20,16 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             available: {
-                type: Sequelize.STRING,
+                type: Sequelize.BOOLEAN,
+                defaultValue: true,
             },
             price: {
                 type: Sequelize.STRING,
+                allowNull: false,
             },
             customerId: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,

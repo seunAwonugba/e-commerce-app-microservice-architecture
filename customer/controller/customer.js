@@ -1,8 +1,8 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
-const { customer, address } = require("../models");
+const { customer, address, wishlist } = require("../models");
 
-exports.findCustomerById = async (req, res, next) => {
+const findCustomerById = async (req, res, next) => {
     const { id } = req.params;
     // console.log(req.params);
 
@@ -31,7 +31,7 @@ exports.findCustomerById = async (req, res, next) => {
     }
 };
 
-exports.findCustomerByEmail = async (req, res, next) => {
+const findCustomerByEmail = async (req, res, next) => {
     const { email } = req.params;
     // console.log(`Email requested -> ${email}`);
 
@@ -64,4 +64,36 @@ exports.findCustomerByEmail = async (req, res, next) => {
     }
 };
 
-// module.exports = { findCustomerById, findCustomerByEmail };
+const findCustomerByIdWithWishlist = async (req, res, next) => {
+    const { customerId } = req.params;
+
+    try {
+        const findCustomerById = await customer.findByPk(customerId, {
+            include: [
+                {
+                    model: wishlist,
+                },
+            ],
+        });
+
+        if (!findCustomerById) {
+            return next(new BadRequest("Customer does not exist"));
+        }
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            data: findCustomerById,
+        });
+    } catch (error) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            data: ReasonPhrases.INTERNAL_SERVER_ERROR,
+        });
+    }
+};
+
+module.exports = {
+    findCustomerById,
+    findCustomerByEmail,
+    findCustomerByIdWithWishlist,
+};

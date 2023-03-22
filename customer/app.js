@@ -8,6 +8,7 @@ const { authRouter } = require("./router/auth");
 const { addressRouter } = require("./router/address");
 const { authMiddleware } = require("./middleware/authMiddleware");
 const { customerRouter } = require("./router/customer");
+const { wishlistRouter } = require("./router/wishlist");
 
 const port = process.env.PORT || 8001;
 const host = "localhost";
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 app.use("/", authRouter);
 app.use("/", authMiddleware, addressRouter);
 app.use("/", authMiddleware, customerRouter);
+app.use("/", authMiddleware, wishlistRouter);
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({
