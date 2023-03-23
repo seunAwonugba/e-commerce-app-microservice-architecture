@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
-const { wishlist } = require("../models");
+const { wishlist, customer } = require("../models");
 
 const createWishlist = async (req, res, next) => {
     const { name, price } = req.body;
@@ -32,4 +32,32 @@ const createWishlist = async (req, res, next) => {
     }
 };
 
-module.exports = { createWishlist };
+const getCustomerWishList = async (req, res, next) => {
+    const customerId = req.user.userId;
+
+    try {
+        const customerWishlist = await customer.findByPk(customerId, {
+            include: [
+                {
+                    model: wishlist,
+                },
+            ],
+        });
+
+        if (!customerWishlist) {
+            return next(new BadRequest("Customer does not exist"));
+        }
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            data: customerWishlist,
+        });
+    } catch (error) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            data: error,
+        });
+    }
+};
+
+module.exports = { createWishlist, getCustomerWishList };

@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
-const { customer, address, wishlist } = require("../models");
+const { customer, address } = require("../models");
 
 const findCustomerById = async (req, res, next) => {
     const { id } = req.params;
@@ -24,6 +24,7 @@ const findCustomerById = async (req, res, next) => {
             data: findCustomerById,
         });
     } catch (error) {
+        console.log(error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             data: ReasonPhrases.INTERNAL_SERVER_ERROR,
@@ -95,5 +96,5 @@ const findCustomerByIdWithWishlist = async (req, res, next) => {
 module.exports = {
     findCustomerById,
     findCustomerByEmail,
-    findCustomerByIdWithWishlist,
+    // findCustomerByIdWithWishlist,
 };

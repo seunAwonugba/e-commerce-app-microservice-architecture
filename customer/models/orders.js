@@ -10,11 +10,26 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Orders.belongsTo(models.customer);
+            Orders.hasMany(models.product, {
+                foreignKey: {
+                    name: "orderId",
+                },
+            });
         }
     }
     Orders.init(
         {
             amount: DataTypes.STRING,
+            status: {
+                type: DataTypes.ENUM(
+                    "NEW",
+                    "PAYMENT_RECEIVED",
+                    "PAYMENT_FAILED",
+                    "PROCESSING",
+                    "DELIVERED",
+                    "CANCELED"
+                ),
+            },
             date: DataTypes.DATE,
             customerId: DataTypes.INTEGER,
         },

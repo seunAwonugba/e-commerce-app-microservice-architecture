@@ -12,6 +12,16 @@ module.exports = {
             amount: {
                 type: Sequelize.STRING,
             },
+            status: {
+                type: Sequelize.ENUM(
+                    "NEW",
+                    "PAYMENT_RECEIVED",
+                    "PAYMENT_FAILED",
+                    "PROCESSING",
+                    "DELIVERED",
+                    "CANCELED"
+                ),
+            },
             date: {
                 type: Sequelize.DATE,
             },

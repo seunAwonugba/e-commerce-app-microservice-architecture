@@ -12,11 +12,26 @@ module.exports = {
             name: {
                 type: Sequelize.STRING,
             },
+            description: {
+                type: Sequelize.STRING,
+            },
             banner: {
                 type: Sequelize.STRING,
             },
-            price: {
+            type: {
                 type: Sequelize.STRING,
+            },
+            unit: {
+                type: Sequelize.INTEGER,
+            },
+            price: {
+                type: Sequelize.INTEGER,
+            },
+            available: {
+                type: Sequelize.BOOLEAN,
+            },
+            supplier: {
+                type: Sequelize.BOOLEAN,
             },
             cartId: {
                 type: Sequelize.INTEGER,
