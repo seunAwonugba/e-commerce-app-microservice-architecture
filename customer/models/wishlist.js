@@ -10,31 +10,37 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Wishlist.belongsTo(models.customer);
+            Wishlist.hasMany(models.product, {
+                foreignKey: {
+                    name: "wishlistId",
+                },
+                onDelete: "CASCADE",
+            });
         }
     }
     Wishlist.init(
         {
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    notEmpty: {
-                        msg: "Item name is required",
-                    },
-                },
-            },
-            description: DataTypes.STRING,
-            banner: DataTypes.STRING,
-            available: { type: DataTypes.BOOLEAN, defaultValue: true },
-            price: {
-                type: DataTypes.STRING,
-                validate: {
-                    notEmpty: {
-                        msg: "Item price is required",
-                    },
-                },
-            },
-            customerId: DataTypes.INTEGER,
+            // name: {
+            //     type: DataTypes.STRING,
+            //     allowNull: false,
+            //     validate: {
+            //         notEmpty: {
+            //             msg: "Item name is required",
+            //         },
+            //     },
+            // },
+            // description: DataTypes.STRING,
+            // banner: DataTypes.STRING,
+            // available: { type: DataTypes.BOOLEAN, defaultValue: true },
+            // price: {
+            //     type: DataTypes.STRING,
+            //     validate: {
+            //         notEmpty: {
+            //             msg: "Item price is required",
+            //         },
+            //     },
+            // },
+            customerId: { type: DataTypes.INTEGER, allowNull: false },
         },
         {
             sequelize,

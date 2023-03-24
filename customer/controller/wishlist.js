@@ -1,27 +1,77 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
-const { wishlist, customer } = require("../models");
+const { wishlist, customer, product } = require("../models");
+// const product = require("../models/product");
 
-const createWishlist = async (req, res, next) => {
-    const { name, price } = req.body;
+const addProductToWishlist = async (req, res, next) => {
 
-    if (!name) {
-        return next(new BadRequest("Kindly provide item name"));
-    }
+    const { productId } = req.body;
 
-    if (!price) {
-        return next(new BadRequest("Kindly provide item price"));
+    if (!productId) {
+        return next(new BadRequest("Product id is required"));
     }
 
     try {
-        const createWishlist = await wishlist.create({
-            ...req.body,
-            customerId: req.user.userId,
+        // const createWishlist = await wishlist.create({
+        //     ...req.body,
+        //     customerId: req.user.userId,
+        // });
+
+        const findProduct = await product.findByPk(productId);
+
+        // console.log(`Found product -> ${findProduct}`);
+
+        if (!findProduct) {
+            return next(
+                new BadRequest(
+                    "Product not found: Product might have been deleted"
+                )
+            );
+        }
+
+        const checkIfWishlistContainsProduct = await wishlist.findAll({
+            include: [
+                {
+                    model: product,
+                    where: {
+                        id: findProduct.id,
+                    },
+                },
+            ],
+            where: {
+                customerId: req.user.userId,
+            },
         });
+
+        if (checkIfWishlistContainsProduct.length != 0) {
+            return next(new BadRequest("Product already in customer wishlist"));
+        }
+
+        const addProductToWishlist = await wishlist.create({
+            customerId: req.user.userId,
+            include: [
+                {
+                    model: product,
+                },
+            ],
+        });
+
+        findProduct.wishlistId = addProductToWishlist.id;
+
+        // console.log(findProduct.wishlistId);
+        await findProduct.save();
+
+        // const getWishlist = await wishlist.findAll({
+        //     include: [{
+        //         model: product
+        //     }]
+        // })
+
+        // console.log(checkIfWishlistContainsProduct);
 
         return res.status(StatusCodes.CREATED).json({
             success: true,
-            data: createWishlist,
+            data: addProductToWishlist,
         });
     } catch (error) {
         console.log(error);
@@ -32,7 +82,7 @@ const createWishlist = async (req, res, next) => {
     }
 };
 
-const getCustomerWishList = async (req, res, next) => {
+const getCustomerWishlistProducts = async (req, res, next) => {
     const customerId = req.user.userId;
 
     try {
@@ -40,6 +90,11 @@ const getCustomerWishList = async (req, res, next) => {
             include: [
                 {
                     model: wishlist,
+                    include: [
+                        {
+                            model: product,
+                        },
+                    ],
                 },
             ],
         });
@@ -60,4 +115,4 @@ const getCustomerWishList = async (req, res, next) => {
     }
 };
 
-module.exports = { createWishlist, getCustomerWishList };
+module.exports = { addProductToWishlist, getCustomerWishlistProducts };

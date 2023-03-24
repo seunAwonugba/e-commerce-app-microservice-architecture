@@ -7,10 +7,14 @@ const validator = require("validator");
 const bcryptjs = require("bcryptjs");
 
 const createCustomer = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password, phone } = req.body;
 
-    if (!name) {
-        return next(new BadRequest("Name is required"));
+    if (!firstName) {
+        return next(new BadRequest("First name is required"));
+    }
+
+    if (!lastName) {
+        return next(new BadRequest("Last name is required"));
     }
 
     if (!email) {
@@ -19,6 +23,10 @@ const createCustomer = async (req, res, next) => {
 
     if (!password) {
         return next(new BadRequest("Password is required"));
+    }
+
+    if (!phone) {
+        return next(new BadRequest("Phone number is required"));
     }
 
     if (!validator.default.isStrongPassword(password)) {
@@ -31,11 +39,13 @@ const createCustomer = async (req, res, next) => {
 
     try {
         const createCustomer = await customer.create(req.body);
+        // console.log(createCustomer);
+        const name = `${createCustomer.firstName} ${createCustomer.lastName}`;
 
         const token = jwt.sign(
             {
                 userId: createCustomer.id,
-                name: createCustomer.name,
+                name,
             },
             process.env.JWT_SECRET,
             {
@@ -45,20 +55,14 @@ const createCustomer = async (req, res, next) => {
 
         return res.status(StatusCodes.CREATED).json({
             success: true,
-            data: {
-                id: createCustomer.dataValues.id,
-                name: createCustomer.dataValues.name,
-                email: createCustomer.dataValues.email,
-                phone: createCustomer.dataValues.phone,
-                updatedAt: createCustomer.dataValues.updatedAt,
-                createdAt: createCustomer.dataValues.createdAt,
-            },
+            data: createCustomer,
             token,
         });
     } catch (error) {
+        // console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
-            data: error,
+            data: error.errors[0].message,
         });
     }
 };
@@ -112,10 +116,12 @@ const login = async (req, res, next) => {
             );
         }
 
+        const name = `${checkUser.firstName} ${checkUser.lastName}`;
+
         const token = jwt.sign(
             {
-                userId: checkUser.dataValues.id,
-                name: checkUser.dataValues.name,
+                userId: checkUser.id,
+                name,
             },
             process.env.JWT_SECRET,
             {
@@ -125,18 +131,7 @@ const login = async (req, res, next) => {
 
         return res.status(StatusCodes.OK).json({
             success: true,
-            data: {
-                id: checkUser.dataValues.id,
-                name: checkUser.dataValues.name,
-                email: checkUser.dataValues.email,
-                phone: checkUser.dataValues.phone,
-                updatedAt: checkUser.dataValues.updatedAt,
-                createdAt: checkUser.dataValues.createdAt,
-                address: checkUser.dataValues.address,
-                cart: checkUser.dataValues.cart,
-                wishlist: checkUser.dataValues.wishlist,
-                orders: checkUser.dataValues.cart,
-            },
+            data: checkUser,
             token,
         });
     } catch (error) {

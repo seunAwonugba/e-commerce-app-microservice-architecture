@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: {
                     name: "orderId",
                 },
+                onDelete: "CASCADE",
             });
         }
     }
@@ -29,9 +30,10 @@ module.exports = (sequelize, DataTypes) => {
                     "DELIVERED",
                     "CANCELED"
                 ),
+                defaultValue: "NEW",
             },
             date: DataTypes.DATE,
-            customerId: DataTypes.INTEGER,
+            customerId: { type: DataTypes.INTEGER, allowNull: false },
         },
         {
             sequelize,

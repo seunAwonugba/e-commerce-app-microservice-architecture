@@ -14,13 +14,15 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: {
                     name: "cartId",
                 },
+                onDelete: "CASCADE",
             });
         }
     }
     Cart.init(
         {
             unit: DataTypes.STRING,
-            customerId: DataTypes.INTEGER,
+            customerId: { type: DataTypes.INTEGER, allowNull: false }
+
         },
         {
             sequelize,

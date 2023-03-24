@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
-            customerId: DataTypes.INTEGER,
+            customerId: { type: DataTypes.INTEGER, allowNull: false }
         },
         {
             sequelize,

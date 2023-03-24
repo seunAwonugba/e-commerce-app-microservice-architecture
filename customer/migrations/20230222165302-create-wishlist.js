@@ -9,24 +9,29 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            description: {
-                type: Sequelize.STRING,
-            },
-            banner: {
-                type: Sequelize.STRING,
-            },
-            available: {
-                type: Sequelize.BOOLEAN,
-                defaultValue: true,
-            },
-            price: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
+            // name: {
+            //     type: Sequelize.STRING,
+            //     allowNull: false,
+            // },
+            // description: {
+            //     type: Sequelize.STRING,
+            // },
+            // banner: {
+            //     type: Sequelize.STRING,
+            // },
+            // available: {
+            //     type: Sequelize.BOOLEAN,
+            //     defaultValue: true,
+            // },
+            // price: {
+            //     type: Sequelize.STRING,
+            //     allowNull: false,
+            //     validate: {
+            //         notEmpty: {
+            //             msg: "Item price is required",
+            //         },
+            //     },
+            // },
             customerId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,

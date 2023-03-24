@@ -38,6 +38,13 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 onDelete: "CASCADE",
             });
+
+            Customer.hasMany(models.product, {
+                foreignKey: {
+                    name: "customerId",
+                },
+                onDelete: "CASCADE",
+            });
         }
 
         toJSON() {
@@ -46,14 +53,26 @@ module.exports = (sequelize, DataTypes) => {
     }
     Customer.init(
         {
-            name: {
+            firstName: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Name is required",
+                        msg: "First name is required",
                     },
                 },
+            },
+            lastName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Last name is required",
+                    },
+                },
+            },
+            userName: {
+                type: DataTypes.STRING,
             },
             email: {
                 type: DataTypes.STRING,
@@ -79,6 +98,12 @@ module.exports = (sequelize, DataTypes) => {
             },
             phone: {
                 type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Phone number is required",
+                    },
+                },
             },
         },
         {
@@ -94,7 +119,3 @@ module.exports = (sequelize, DataTypes) => {
 
     return Customer;
 };
-
-// Customer.beforeCreate(async (customer) => {
-//     customer.password = await bcrypt.hash(password, 10);
-// });

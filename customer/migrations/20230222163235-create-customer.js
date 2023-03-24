@@ -9,14 +9,26 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            firstName: {
                 type: Sequelize.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Name is required",
+                        msg: "First name is required",
                     },
                 },
+            },
+            lastName: {
+                type: Sequelize.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Last name is required",
+                    },
+                },
+            },
+            userName: {
+                type: Sequelize.STRING,
             },
             email: {
                 type: Sequelize.STRING,
@@ -42,6 +54,12 @@ module.exports = {
             },
             phone: {
                 type: Sequelize.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Phone number is required",
+                    },
+                },
             },
             createdAt: {
                 allowNull: false,

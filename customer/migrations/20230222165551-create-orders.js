@@ -21,12 +21,14 @@ module.exports = {
                     "DELIVERED",
                     "CANCELED"
                 ),
+                defaultValue: "NEW",
             },
             date: {
                 type: Sequelize.DATE,
             },
             customerId: {
                 type: Sequelize.INTEGER,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,
