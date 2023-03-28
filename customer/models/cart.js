@@ -20,9 +20,15 @@ module.exports = (sequelize, DataTypes) => {
     }
     Cart.init(
         {
-            unit: DataTypes.STRING,
-            customerId: { type: DataTypes.INTEGER, allowNull: false }
-
+            unit: DataTypes.INTEGER,
+            customerId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                unique: {
+                    args: true,
+                    msg: "Cart set already, update cart instead",
+                },
+            },
         },
         {
             sequelize,

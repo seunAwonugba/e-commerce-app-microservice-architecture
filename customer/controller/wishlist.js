@@ -4,7 +4,6 @@ const { wishlist, customer, product } = require("../models");
 // const product = require("../models/product");
 
 const addProductToWishlist = async (req, res, next) => {
-
     const { productId } = req.body;
 
     if (!productId) {
@@ -74,7 +73,7 @@ const addProductToWishlist = async (req, res, next) => {
             data: addProductToWishlist,
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             data: ReasonPhrases.INTERNAL_SERVER_ERROR,

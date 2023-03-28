@@ -32,9 +32,9 @@ const createAddress = async (req, res, next) => {
             data: createAddress,
         });
     } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
-            data: error,
+            data: error.errors[0].message,
         });
     }
 };

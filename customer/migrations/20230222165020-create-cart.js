@@ -10,11 +10,12 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             unit: {
-                type: Sequelize.STRING,
+                type: Sequelize.INTEGER,
             },
             customerId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
+                unique: true,
             },
             createdAt: {
                 allowNull: false,

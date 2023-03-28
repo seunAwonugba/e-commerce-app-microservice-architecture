@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
-const { customer, address } = require("../models");
+const { customer, address, cart, product } = require("../models");
 
 const findCustomerById = async (req, res, next) => {
     const { id } = req.params;
@@ -93,8 +93,37 @@ const findCustomerByIdWithWishlist = async (req, res, next) => {
     }
 };
 
+const getCartItem = async (req, res, next) => {
+    try {
+        const getCartItem = await customer.findByPk(req.user.userId, {
+            include: [
+                {
+                    model: cart,
+                    include: [
+                        {
+                            model: product,
+                        },
+                    ],
+                },
+            ],
+        });
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            data: getCartItem,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            data: ReasonPhrases.INTERNAL_SERVER_ERROR,
+        });
+    }
+};
+
 module.exports = {
     findCustomerById,
     findCustomerByEmail,
     // findCustomerByIdWithWishlist,
+    getCartItem,
 };

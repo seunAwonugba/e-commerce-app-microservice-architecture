@@ -51,7 +51,14 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
-            customerId: { type: DataTypes.INTEGER, allowNull: false }
+            customerId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                unique: {
+                    args: true,
+                    msg: "Address set already, update instead",
+                },
+            },
         },
         {
             sequelize,
