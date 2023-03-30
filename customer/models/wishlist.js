@@ -20,26 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }
     Wishlist.init(
         {
-            // name: {
-            //     type: DataTypes.STRING,
-            //     allowNull: false,
-            //     validate: {
-            //         notEmpty: {
-            //             msg: "Item name is required",
-            //         },
-            //     },
-            // },
-            // description: DataTypes.STRING,
-            // banner: DataTypes.STRING,
-            // available: { type: DataTypes.BOOLEAN, defaultValue: true },
-            // price: {
-            //     type: DataTypes.STRING,
-            //     validate: {
-            //         notEmpty: {
-            //             msg: "Item price is required",
-            //         },
-            //     },
-            // },
             customerId: { type: DataTypes.INTEGER, allowNull: false },
         },
         {

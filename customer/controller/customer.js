@@ -4,7 +4,6 @@ const { customer, address, cart, product } = require("../models");
 
 const findCustomerById = async (req, res, next) => {
     const { id } = req.params;
-    // console.log(req.params);
 
     try {
         const findCustomerById = await customer.findByPk(id, {

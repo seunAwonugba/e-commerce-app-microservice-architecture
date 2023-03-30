@@ -1,7 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
 const { wishlist, customer, product } = require("../models");
-// const product = require("../models/product");
 
 const addProductToWishlist = async (req, res, next) => {
     const { productId } = req.body;
@@ -11,14 +10,7 @@ const addProductToWishlist = async (req, res, next) => {
     }
 
     try {
-        // const createWishlist = await wishlist.create({
-        //     ...req.body,
-        //     customerId: req.user.userId,
-        // });
-
         const findProduct = await product.findByPk(productId);
-
-        // console.log(`Found product -> ${findProduct}`);
 
         if (!findProduct) {
             return next(
@@ -57,23 +49,13 @@ const addProductToWishlist = async (req, res, next) => {
 
         findProduct.wishlistId = addProductToWishlist.id;
 
-        // console.log(findProduct.wishlistId);
         await findProduct.save();
-
-        // const getWishlist = await wishlist.findAll({
-        //     include: [{
-        //         model: product
-        //     }]
-        // })
-
-        // console.log(checkIfWishlistContainsProduct);
 
         return res.status(StatusCodes.CREATED).json({
             success: true,
             data: addProductToWishlist,
         });
     } catch (error) {
-        // console.log(error);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             data: ReasonPhrases.INTERNAL_SERVER_ERROR,

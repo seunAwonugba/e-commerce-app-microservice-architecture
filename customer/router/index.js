@@ -4,6 +4,7 @@ const { customerRouter } = require("./customer");
 const { productRouter } = require("./product");
 const { wishlistRouter } = require("./wishlist");
 const { cartRouter } = require("./cart");
+const { ordersRouter } = require("./orders");
 
 module.exports = {
     addressRouter,
@@ -12,4 +13,5 @@ module.exports = {
     productRouter,
     wishlistRouter,
     cartRouter,
+    ordersRouter,
 };

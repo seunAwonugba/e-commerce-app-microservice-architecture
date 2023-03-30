@@ -85,7 +85,7 @@ const addProductToCart = async (req, res, next) => {
             const addNewProductToOldCart =
                 checkIfCustomerHasCart.cart.addProduct(productId);
 
-            console.log(addNewProductToOldCart);
+            // console.log(addNewProductToOldCart);
 
             return res.status(StatusCodes.CREATED).json({
                 success: true,

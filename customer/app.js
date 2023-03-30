@@ -11,6 +11,7 @@ const {
     productRouter,
     wishlistRouter,
     cartRouter,
+    ordersRouter,
 } = require("./router");
 const { authMiddleware } = require("./middleware/authMiddleware");
 
@@ -32,6 +33,7 @@ app.use("/", authMiddleware, customerRouter);
 app.use("/", authMiddleware, wishlistRouter);
 app.use("/", authMiddleware, productRouter);
 app.use("/", authMiddleware, cartRouter);
+app.use("/", authMiddleware, ordersRouter);
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({
