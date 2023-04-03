@@ -21,8 +21,8 @@ const authMiddleware = async (req, res, next) => {
 
         //req.user can be accessed in any route that is authenticated, it just prepends itself to the req as an obj, like add element to an object
         req.user = {
-            userId: decode.userId,
-            name: decode.name,
+            id: decode.id,
+            email: decode.email,
         };
         // console.log(req.user);
 

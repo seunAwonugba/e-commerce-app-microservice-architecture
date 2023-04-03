@@ -1,9 +1,26 @@
 const express = require("express");
-const { createCustomer, login } = require("../controller/auth");
+const { StatusCodes } = require("http-status-codes");
+const { CustomerService } = require("../service/customer-service");
 
 const authRouter = express.Router();
+const customerService = new CustomerService();
 
-authRouter.post("/create-customer", createCustomer);
-authRouter.post("/login", login);
+authRouter.post("/sign-up", async (req, res, next) => {
+    try {
+        const signUp = await customerService.signUp(req.body);
+        res.status(StatusCodes.CREATED).json(signUp);
+    } catch (error) {
+        next(error);
+    }
+});
+
+authRouter.post("/login", async (req, res, next) => {
+    try {
+        const login = await customerService.login(req.body);
+        res.status(StatusCodes.CREATED).json(login);
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = { authRouter };
