@@ -11,12 +11,8 @@ module.exports = {
             },
             firstName: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    notEmpty: {
-                        msg: "First name is required",
-                    },
-                },
+                type: Sequelize.INTEGER,
+
             },
             lastName: {
                 type: Sequelize.STRING,

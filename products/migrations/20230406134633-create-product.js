@@ -9,12 +9,12 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
+            productName: {
                 type: Sequelize.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Product name is required",
+                        msg: "First name is required",
                     },
                 },
             },
@@ -33,21 +33,21 @@ module.exports = {
                     },
                 },
             },
-            unit: {
+            availableUnits: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Available product unit is required",
+                        msg: "Available product units is required",
                     },
                 },
             },
-            price: {
+            unitPrice: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Product price is required",
+                        msg: "Product unit price is required",
                     },
                 },
             },
@@ -57,25 +57,6 @@ module.exports = {
             },
             supplier: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    notEmpty: {
-                        msg: "Supplier's name is required",
-                    },
-                },
-            },
-            cartId: {
-                type: Sequelize.INTEGER,
-            },
-            orderId: {
-                type: Sequelize.INTEGER,
-            },
-            wishlistId: {
-                type: Sequelize.INTEGER,
-            },
-            customerId: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
             },
             createdAt: {
                 allowNull: false,

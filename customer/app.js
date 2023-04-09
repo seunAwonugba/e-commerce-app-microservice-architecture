@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const { errorMiddleware } = require("./middleware/errorMiddleware");
+const { errorMiddleware, authMiddleware } = require("../middleware");
 require("dotenv").config();
 const { sequelize } = require("./models/index");
 const {
@@ -13,7 +13,6 @@ const {
     cartRouter,
     ordersRouter,
 } = require("./router");
-const { authMiddleware } = require("./middleware/authMiddleware");
 
 const port = process.env.PORT || 8001;
 const host = "localhost";
@@ -47,10 +46,14 @@ app.use(errorMiddleware);
 const startServer = async () => {
     try {
         await sequelize.authenticate();
-        console.log("Connection has been established successfully.");
+        console.log(
+            "Customer service database connection has been established successfully."
+        );
 
         app.listen(port, host, () => {
-            console.log(`server is listening on http://${host}:${port}`);
+            console.log(
+                `Customer service: server is listening on http://${host}:${port}`
+            );
         });
     } catch (error) {
         console.error("Unable to connect to the database:", error);

@@ -18,33 +18,33 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "CASCADE",
             });
 
-            Customer.hasOne(models.cart, {
-                foreignKey: {
-                    name: "customerId",
-                },
-                onDelete: "CASCADE",
-            });
+            // Customer.hasOne(models.cart, {
+            //     foreignKey: {
+            //         name: "customerId",
+            //     },
+            //     onDelete: "CASCADE",
+            // });
 
-            Customer.hasMany(models.wishlist, {
-                foreignKey: {
-                    name: "customerId",
-                },
-                onDelete: "CASCADE",
-            });
+            // Customer.hasMany(models.wishlist, {
+            //     foreignKey: {
+            //         name: "customerId",
+            //     },
+            //     onDelete: "CASCADE",
+            // });
 
-            Customer.hasMany(models.orders, {
-                foreignKey: {
-                    name: "customerId",
-                },
-                onDelete: "CASCADE",
-            });
+            // Customer.hasMany(models.orders, {
+            //     foreignKey: {
+            //         name: "customerId",
+            //     },
+            //     onDelete: "CASCADE",
+            // });
 
-            Customer.hasMany(models.product, {
-                foreignKey: {
-                    name: "customerId",
-                },
-                onDelete: "CASCADE",
-            });
+            // Customer.hasMany(models.product, {
+            //     foreignKey: {
+            //         name: "customerId",
+            //     },
+            //     onDelete: "CASCADE",
+            // });
         }
 
         toJSON() {

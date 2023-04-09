@@ -9,15 +9,11 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Product.belongsTo(models.cart);
-            Product.belongsTo(models.orders);
-            Product.belongsTo(models.wishlist);
-            Product.belongsTo(models.customer);
         }
     }
     Product.init(
         {
-            name: {
+            productName: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
@@ -37,21 +33,21 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
-            unit: {
+            availableUnits: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Available product unit is required",
+                        msg: "Available product units is required",
                     },
                 },
             },
-            price: {
+            unitPrice: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {
                     notEmpty: {
-                        msg: "Product price is required",
+                        msg: "Product unit price is required",
                     },
                 },
             },
@@ -59,28 +55,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.ENUM("YES", "NO"),
                 defaultValue: "YES",
             },
-            supplier: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    notEmpty: {
-                        msg: "Supplier name is required",
-                    },
-                },
-            },
-            cartId: {
-                type: DataTypes.INTEGER,
-            },
-            orderId: {
-                type: DataTypes.INTEGER,
-            },
-            wishlistId: {
-                type: DataTypes.INTEGER,
-            },
-            customerId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
+            supplier: DataTypes.STRING,
         },
         {
             sequelize,

@@ -1,9 +1,7 @@
-const { BadRequest, Unauthenticated } = require("../errors");
+const { BadRequest, Unauthenticated } = require("../../middleware/errors");
 const { CustomerRepository } = require("../repository/customer-repository");
 const validator = require("validator");
-const { GenerateToken } = require("../utils");
-const { StatusCodes } = require("http-status-codes");
-const bcryptjs = require("bcryptjs");
+const { GenerateToken, ComparePasswords } = require("../utils");
 
 class CustomerService {
     constructor() {
@@ -40,7 +38,9 @@ class CustomerService {
             );
         }
 
-        const createCustomer = await this.repository.createCustomer(payload);
+        const createCustomer = await this.repository.createCustomer({
+            ...payload,
+        });
 
         const token = await GenerateToken({
             id: createCustomer.id,
@@ -56,7 +56,6 @@ class CustomerService {
 
     async login(payload) {
         const { password, email } = payload;
-        console.log(payload);
 
         if (!email) {
             throw new BadRequest("Email address is required");
@@ -82,7 +81,7 @@ class CustomerService {
             throw new Unauthenticated("Login failed: Incorrect email address");
         }
 
-        const comparePassword = await bcryptjs.compare(
+        const comparePassword = await ComparePasswords(
             password,
             customer.password
         );
@@ -100,6 +99,38 @@ class CustomerService {
             success: true,
             data: customer,
             token,
+        };
+    }
+
+    async createAddress(id, payload) {
+        const { street, postalCode, city, country, houseNumber } = payload;
+
+        if (!street) {
+            throw new BadRequest("State is required");
+        }
+
+        if (!city) {
+            throw new BadRequest("City is required");
+        }
+
+        if (!country) {
+            throw new BadRequest("Country is required");
+        }
+
+        const address = await this.repository.createAddress({ id, ...payload });
+
+        return {
+            success: true,
+            data: address,
+        };
+    }
+
+    async getCustomerById(id) {
+        const getCustomer = await this.repository.getCustomerById({ id });
+
+        return {
+            success: true,
+            data: getCustomer,
         };
     }
 }
