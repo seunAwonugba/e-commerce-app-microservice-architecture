@@ -41,6 +41,8 @@ authRouter.post("/sign-up", async (req, res, next) => {
 authRouter.post("/login", async (req, res, next) => {
     try {
         const login = await customerService.login(req.body);
+
+        
         return res.status(StatusCodes.CREATED).json(login);
     } catch (error) {
         next(error);
